@@ -1,0 +1,2 @@
+Sending Logstash's logs to F:/logstash-5.5.0/logs which is now configured via log4j2.properties
+[2018-12-01T22:27:42,853][ERROR][logstash.agent           ] Cannot create pipeline {:reason=>"Expected one of #, => at line 1, column 54 (byte 54) after output {  elasticsearch {  hosts "}
