@@ -1,0 +1,109 @@
+{
+	"template": "testdesc",
+	"settings": {
+		"index.refresh_interval": "5s",
+		"number_of_shards": 3,
+		"number_of_replicas": 0,
+		"analysis": {
+			"char_filter": {
+				"specialCharactersFilter": {
+					"pattern": "\\+\\|\\!\\(\\)\\{\\}\\[\\]\\^\\~\\*\\?\\:\\.",
+					"type": "pattern_replace",
+					"replacement": ""
+				}
+			},
+			"analyzer": {
+				"alphanumericStringAnalyzer": {
+					"filter": "lowercase",
+					"char_filter": [
+						"specialCharactersFilter"
+					],
+					"type": "custom",
+					"tokenizer": "standard"
+				}
+			}
+
+		}
+	},
+	"mappings": {
+			"test":{
+				"_all": {
+					"enabled": false,
+					"omit_norms": true
+				},
+				"properties": {
+					"id": {
+						"type": "text"
+					},
+					"url": {
+						"type": "text"
+					},
+					"title": {
+						"type": "text"
+					},
+					"desc": {
+					  "type": "text",
+						"analyzer": "alphanumericStringAnalyzer",
+						"search_analyzer": "alphanumericStringAnalyzer"
+					},
+					"user_name": {
+						"type": "text"
+					},
+					"views": {
+						"type": "integer"
+					},
+					"user_face": {
+						"type": "text"
+					},
+					"blog_title": {
+						"type": "text"
+					},
+					"type": {
+						"type": "text"
+					},
+					"sub_title": {
+						"type": "text"
+					},
+					"strategy": {
+						"type": "text"
+					}
+				},
+				"dynamic_templates": [{
+					"message_field": {
+						"match": "message",
+						"match_mapping_type": "string",
+						"mapping": {
+							"type": "string",
+							"index": "not_analyzed",
+							"omit_norms": true,
+							"fielddata": {
+								"format": "disabled"
+							}
+						}
+					}
+				}, {
+					"string_fields": {
+						"match": "*",
+						"match_mapping_type": "string",
+						"mapping": {
+							"type": "string",
+							"index": "not_analyzed",
+							"omit_norms": true,
+							"fielddata": {
+								"format": "disabled"
+							},
+							"fields": {
+								"raw": {
+									"type": "string",
+									"index": "not_analyzed",
+									"ignore_above": 256
+								}
+							}
+						}
+					}
+				}]
+			}
+			
+		
+	}
+}
